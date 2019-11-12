@@ -25,7 +25,7 @@
       <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
       
         <meta charset="utf-8" />
-        <title>SimpleAdmin - Responsive Admin Dashboard Template</title>
+        <title></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -42,28 +42,37 @@
         <!-- Custom styles for this template -->
         <link href="<%= request.getContextPath() %>/resources/assets/css/style2.css?after" rel="stylesheet">
 
-      <style>
+         <style>
          body{
                background: url('<%= request.getContextPath() %>/resources/user/images/loginback.jpg') no-repeat;
-               
+               background-size: 100%;
          }
          
-         body::before { position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+          body:before { position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
          background: url('<%= request.getContextPath() %>/resources/user/images/loginback.jpg') no-repeat;
-         -webkit-filter: blur(5px); 
-         -moz-filter: blur(5px); 
-         -o-filter: blur(5px); 
-         -ms-filter: blur(5px); 
-         filter: blur(5px); z-index: -1; 
+         background-size: 100%;
+         -webkit-filter: blur(3px); 
+         -moz-filter: blur(3px); 
+         -o-filter: blur(3px); 
+         -ms-filter: blur(3px); 
+         filter: blur(3px); z-index: -2; 
          content: "";
           }
+
+
+         
+      
+         
+         .col-sm-12 text-center { 
          
          
-         .col-sm-12 text-center {
+         width: 540px;
+            height: 100px;
          
          
-         text-decoration-color: aliceblue;
+         
          }
+
       
       
       .wrapper-page .card-box {
@@ -76,10 +85,8 @@
                 color: white !important;
                 
             }
-
-      
-      
-      
+            
+            
       </style>
 
 

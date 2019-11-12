@@ -320,9 +320,13 @@
            	<!-- Page content start -->
             <div class="page-contentbar">
 		
-
+		
                 <!--left navigation start-->
-                <%@ include file="../common/adminSidebar.jsp" %>
+                <% if(userType.equals("A")) { %>
+                	<%@ include file="../common/adminSidebar.jsp" %>
+                <% }else { %>
+                	<%@ include file="../common/campSidebar.jsp" %>
+                <% } %>
                 <!--left navigation end-->
 		
 

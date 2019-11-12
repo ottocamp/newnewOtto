@@ -57,13 +57,20 @@
 
 								</ul></li>
 
-							<li><a href="javascript: void(0);" aria-expanded="true"><i
-									class="ti-pencil-alt"></i> 문의답변 <span class="fa arrow"></span></a>
-								<<ul class="nav-second-level nav collapse" aria-expanded="false">
-                                        <li><a href="forms-general.html">공지사항</a></li>
-                                        <li><a href="forms-advanced.html">문의답변</a></li>
-                                    </ul></li>
-
+							<!-- 김상인 2019/11/10일 추가 / 위치 변경 필요 -->	
+                            <li class="qes-side">
+                                <a href="#" aria-expanded="true"><i class="mdi mdi-book-open"></i> 내가 쓴 글 <span class="fa arrow"></span> </a>
+                                <ul class="nav-second-level nav collapse" aria-expanded="false">
+                                    <li><a href="<%= request.getContextPath() %>/myList.bo">내 게시글</a></li>
+                                    <li><a href="<%= request.getContextPath() %>/myList.co">내 댓글</a></li>
+                                    <li><a href="<%= request.getContextPath() %>/myList.qe">내 문의</a></li>
+                                    
+                                    <br>
+                                    <li><a href="<%= request.getContextPath() %>/list.an">답변하기</a></li>
+                                </ul>
+                            </li >
+                                    
+							
 						</ul>
 					</div>
 				</div>
