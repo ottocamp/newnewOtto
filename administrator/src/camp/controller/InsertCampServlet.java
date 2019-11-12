@@ -18,7 +18,9 @@ import com.oreilly.servlet.MultipartRequest;
 import camp.model.vo.Attachment;
 import camp.model.service.CampService;
 import camp.model.vo.CampInfo;
+import camp.model.vo.ReservationCamp;
 import common.MyFileRenamePolicy;
+import common.PropicRenamePolicy;
 import user.model.vo.User;
 
 /**
@@ -53,7 +55,7 @@ public class InsertCampServlet extends HttpServlet {
 	    	  String savePath = root + "/resources/camp_uploadFiles/";
 	    	  
 	    	  MultipartRequest multiRequest 
-				= new MultipartRequest(request, savePath, maxSize, "UTF-8");
+				= new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 	    	  
 	    	  ArrayList<String> changeFiles = new ArrayList<String>();
 	    	  
@@ -81,7 +83,7 @@ public class InsertCampServlet extends HttpServlet {
 				}
 	    	  
 	    	  
-	    	// 2. request에 담겨있는 값들 꺼내서 변수에 저장 및 객체 생성
+	    	// 2. request에 담겨있는 값들 꺼내서 변수에 저장 및 객체 생성 : CampInfo에 들어갈 값
 		      String campName = multiRequest.getParameter("campName");
 		      String operatorNo = multiRequest.getParameter("operatorNo");
 		      String operatorName = multiRequest.getParameter("operatorName");
@@ -90,14 +92,13 @@ public class InsertCampServlet extends HttpServlet {
 		      String campUrl = multiRequest.getParameter("campUrl");
 		      
 		      int campTheme = Integer.parseInt(multiRequest.getParameter("campTheme"));
-		      // 데이트 처리 물어보기 
 		      String availableDate = multiRequest.getParameter("availableDate");
 		      String posting = multiRequest.getParameter("posting");
 		      String refund = multiRequest.getParameter("refund");
 		      String suggestEtc = multiRequest.getParameter("suggest");
 		      
-		      // availableDate(11/11/2019) -> (19/11/11)로 변경
-		      String NewAvailableDate = availableDate.substring(8) + "/" + availableDate.substring(3,5) + "/" + availableDate.substring(0, 2);
+		      // availableDate(11/18/2019) -> (19/11/11)로 변경
+		      String NewAvailableDate = availableDate.substring(8) + "/" + availableDate.substring(0,2) + "/" + availableDate.substring(3,5);
 		      
 		      
 		      
@@ -131,9 +132,28 @@ public class InsertCampServlet extends HttpServlet {
 		     
 		      System.out.println(c);
 		      
-		      // 3-1. 캠프 insert용 서비스 메소드 전달하고 결과 받기
-		      int result = new CampService().insertCamp(c);
-	    	  
+		      
+	    	
+		   // 2. request에 담겨있는 값들 꺼내서 변수에 저장 및 객체 생성 : Reservation에 들어갈 값
+		      String siteoption = multiRequest.getParameter("siteoption");
+		      String sitecount = multiRequest.getParameter("sitecount");
+		      int siteprice = Integer.parseInt(multiRequest.getParameter("siteprice"));
+		      int addPrice = Integer.parseInt(multiRequest.getParameter("personcost"));
+		      int dateMin = Integer.parseInt(multiRequest.getParameter("mindate"));
+		      int dateMax = Integer.parseInt(multiRequest.getParameter("maxdate"));
+		      int stayMax = Integer.parseInt(multiRequest.getParameter("personlimit"));
+		      
+		      ReservationCamp rc = new ReservationCamp();
+		      
+		      rc.setsType(siteoption);
+		      rc.setsPrice(siteprice);
+		      rc.setAddPrice(addPrice);
+		      rc.setDateMax(dateMax);
+		      rc.setStayMax(stayMax);
+		      
+		      System.out.println(rc);
+		  
+		       
 	    	  
 	    	  ArrayList<Attachment> fileList = new ArrayList<>();
 				// 전송 순서 역순으로 파일이 changeFiles, originFiles에 저장 되었기 때문
@@ -141,39 +161,38 @@ public class InsertCampServlet extends HttpServlet {
 				for(int i = originFiles.size() - 1; i >= 0; i--) {
 					
 					Attachment at = new Attachment();
+					
 					at.setFilePath(savePath);
 					at.setOriginName(originFiles.get(i));
 					at.setChangeName(changeFiles.get(i));
 					
+					System.out.println(at);
+					
 					// 타이틀 이미지인 경우 fileLevel을 0으로, 일반 이미지면 fileLevel이 1
 					// 타이틀 이미지가 originFiles에서 마지막 인덱스이기 때문에
 					if(i == originFiles.size() -1) {
+						// 메인사진
 						at.setcType(2);
 					}else if (i == 0){
-						at.setcType(3);
-					} else {
+						// 캠핑장 전도
+						at.setcType(4);
+					} else if (i == 1){
+						// 사업자등록증
 						at.setcType(1);
-					}
+					} else {
+						// 나머지 사진
+						at.setcType(3);
+					}	
 					
 					fileList.add(at);
 				}
 				
+				
 				// 4. 사진 게시판 작성용 비즈니스 로직을 처리할 서비스 요청
 				// (board 객체, Attachment 리스트 전달)
-//				int result2 = new CampService().insertCampPics(c, fileList);
-//				
-//				if(result2 > 0) {
-//					response.sendRedirect("insert.ca");
-//				}else {
-//					// 실패 시 저장된 사진 삭제
-//					for(int i = 0; i < changeFiles.size(); i++) {
-//						// 파일 시스템에 저장 된 이름으로 파일 객체 생성함
-//						File failedFile = new File(savePath + changeFiles.get(i));
-//						failedFile.delete();
-//					}
-//					
-//				}
-	    	  
+				 // 3-1. 캠프 insert용 서비스 메소드 전달하고 결과 받기
+			      int result = new CampService().insertCamp(c, rc, siteoption ,sitecount, fileList);
+				
 	    	  
 	     
 	      
@@ -181,16 +200,21 @@ public class InsertCampServlet extends HttpServlet {
 	      // 4-1. 받은 결과에 따라 성공, 실패 페이지로 보내기
 	      if (result > 0 ) {
 	         request.getSession().setAttribute("msg", "캠핑장 등록 신청 완료");
-	         request.getRequestDispatcher("views/camp/campInsertView.jsp").forward(request, response);
+	         request.getRequestDispatcher("views/camp/campSubmitResultView.jsp").forward(request, response);
 	      } else {
+	    	  for(int i = 0; i < changeFiles.size(); i++) {
+					// 파일 시스템에 저장 된 이름으로 파일 객체 생성함
+					File failedFile = new File(savePath + changeFiles.get(i));
+					failedFile.delete();
 	    	  request.setAttribute("msg", "캠핑장 등록 신청 실패");
 	    	  request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 	      }
 	      
+	      }
+	      }
 	      
-	    } 
-	      
-	   }
+	   
+	}
 
 
 	/**

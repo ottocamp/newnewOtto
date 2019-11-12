@@ -17,6 +17,7 @@ import camp.model.vo.CampDetail;
 import camp.model.vo.CampInfo;
 import camp.model.vo.CampMinPrice;
 import camp.model.vo.CampReview;
+import camp.model.vo.ReservationCamp;
 
 
 public class CampDao {
@@ -565,6 +566,137 @@ public class CampDao {
 		return ci;
 	}
 
+
+
+	public int insertCampDetail(Connection conn, ReservationCamp rc, String siteoption, String sitecount) {
+		int result = 0;
+		
+		String reSiType = "";
+	
+		
+			PreparedStatement pstmt = null;
+			String sql = prop.getProperty("insertCampDetail");
+			
+			try {
+				
+				for(int i = 1; i <= Integer.parseInt(sitecount); i++) {
+					
+					switch(siteoption) {
+						case "ST1" : reSiType = "파쇄석A"; break;
+						case "ST2" : reSiType = "파쇄석B"; break;
+						case "ST3" : reSiType = "글램핑"; break;
+						case "ST4" : reSiType = "카라반"; break;
+						case "ST5" : reSiType = "팬션"; break;
+						case "ST6" : reSiType = "데크"; break;
+						case "ST7" : reSiType = "기타"; break;
+					
+					}
+					pstmt = conn.prepareStatement(sql);
+				
+					pstmt.setString(1, rc.getsType());
+					pstmt.setString(2, reSiType + i);
+					pstmt.setInt(3, rc.getsPrice());
+					pstmt.setInt(4, rc.getAddPrice());
+					pstmt.setInt(5, rc.getDateMax());
+					pstmt.setInt(6, rc.getStayMax());
+				
+					result += pstmt.executeUpdate();
+				}
+				
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+			System.out.println("sitecount : " + sitecount);
+			System.out.println("reSiType : " + reSiType);
+			
+		return result;
+	}
+
+
+	public int insertCampPics(Connection conn, ArrayList<Attachment> fileList) {
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		String sql = prop.getProperty("insertCampPics");
+
+		try {
+
+			for (int i = 0; i < fileList.size(); i++) {
+				Attachment at = fileList.get(i);
+					
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				pstmt.setInt(4, at.getcType());
+
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+
+	public ArrayList<CampInfo> selectSubmitResult(Connection conn, int uNo) {
+		PreparedStatement pstmt = null;
+		ArrayList<CampInfo> cList = new ArrayList<CampInfo>();
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSubmitResult");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, uNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				cList.add(new CampInfo(rset.getInt(1),
+						rset.getString(2),
+						rset.getString(3),
+						rset.getString(4),
+						rset.getString(5),
+						rset.getInt(6),
+						rset.getString(7),
+						rset.getString(8),
+						rset.getString(9),
+						rset.getString(10),
+						rset.getString(11),
+						rset.getString(12),
+						rset.getString(13),
+						rset.getString(14),
+						rset.getInt(15)));
+				
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return cList;
+	}
+
+
+	
 
 	
 }

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="user.model.vo.*, java.util.*, camp.model.vo.*"%>
     
 <%
+	/**/
 	int code = Integer.parseInt(request.getParameter("code"));
 	ArrayList<CampInfo> cList = (ArrayList<CampInfo>)request.getSession().getAttribute("cList");
 	ArrayList<Attachment> aList = (ArrayList<Attachment>)request.getSession().getAttribute("aList");
@@ -603,7 +604,7 @@ button:hover:after{
             </div>
             
             </div>
-       		<div style="text-align: center;"><input type="checkbox" id="fav">
+       		<div style="text-align: center;"><input type="checkbox" id="fav" <%= checkFlag %>>
        		</div>
        
            
