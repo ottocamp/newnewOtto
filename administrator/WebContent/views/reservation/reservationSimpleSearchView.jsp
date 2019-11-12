@@ -57,13 +57,6 @@
 		</form>
 	</div>
 	
-	
-	
-	<button onclick="location.href='<%= request.getContextPath() %>/index.jsp'">홈으로 돌아가기</button>
-	<button onclick="location.href='<%= request.getContextPath() %>/views/reservation/reservationSimpleListView.jsp'">예약확인 리스트로가기</button>
-
-
-
 
 	<!-- js placed at the end of the document so the pages load faster -->
         <script src="<%= request.getContextPath() %>/resources/assets/js/jquery-2.1.4.min.js"></script>

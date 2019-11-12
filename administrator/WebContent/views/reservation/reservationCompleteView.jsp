@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
+<%
+	String name = (String)request.getAttribute("name");
+	String phone = (String)request.getAttribute("phone");
+%>
+    
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,7 +14,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA
+        -Compatible" content="IE=edge" />
+
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
 
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
@@ -21,7 +30,6 @@
         <link href="<%= request.getContextPath() %>/resources/assets/css/icons.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="<%= request.getContextPath() %>/resources/assets/css/style.css" rel="stylesheet">
-
     </head>
 
 
@@ -77,6 +85,7 @@
 
 		<!-- script -->
 		<script>
+	
             function newWin() {
 
                 var popupX = (window.screen.width / 2) - (800 / 2);
@@ -85,6 +94,9 @@
                  window.open("<%= request.getContextPath() %>/views/reservation/reservationSimpleSearchView.jsp", '', 'height=500, width=800, left='+ popupX + ', top='+ popupY);
 
             }
+            
+            
+            
 		</script>
 		
 

@@ -3,7 +3,7 @@
     pageEncoding="UTF-8" import="java.util.ArrayList, reservation.model.vo.ReservationSimple"%>
     
 <%
-	ArrayList<ReservationSimple> rsList = new ArrayList<ReservationSimple>();
+	ArrayList<ReservationSimple> rsList = (ArrayList<ReservationSimple>)request.getAttribute("rsList");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,16 +29,6 @@
     </head>
 <body>
 	<div class="m-b-20">
-		<h5>Basic Example</h5>
-		<p class="text-muted font-13 m-b-20">
-			For basic styling—light padding and only horizontal dividers—add the
-			base class
-			<code>.table</code>
-			to any
-			<code>&lt;table&gt;</code>
-			.
-		</p>
-
 		<table class="table m-0">
 
 			<thead>
@@ -48,21 +38,18 @@
 					<th>차량번호</th>
 					<th>메모</th>
 					<th>캠핑장</th>
-					<th>사이트</th>
-					<th>입장일</th>
 				</tr>
 			</thead>
 			<tbody>
+				<% for(ReservationSimple rs : rsList)  {%>
 				<tr>
-					<!-- 포 이프문  : rsList 을 통한 출력. -->
-					<th scope="row"></th>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<th scope="row"><%= rs.getReName() %></th>
+					<td><%= rs.getRePhone() %></td>
+					<td><%= rs.getReCar() %></td>
+					<td><%= rs.getReMsg() %></td>
+					<td><%= rs.getReCampName() %></td>
 				</tr>
+				<% } %>
 			</tbody>
 		</table>
 	</div>

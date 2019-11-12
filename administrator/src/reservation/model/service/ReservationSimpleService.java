@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import reservation.model.dao.ReservationSimpleDao;
+import reservation.model.vo.ReservationInsert;
 import reservation.model.vo.ReservationSimple;
 
 public class ReservationSimpleService {
@@ -21,6 +22,16 @@ public class ReservationSimpleService {
 		return rsList;
 		
 		
+	}
+
+	public int InsertReservation(ReservationInsert ri) {
+		Connection conn = getConnection();
+		
+		int result = new ReservationSimpleDao().InsertReservation(conn, ri);
+		
+		close(conn);
+		
+		return result;
 	}
 
 }
