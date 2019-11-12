@@ -67,7 +67,7 @@ public class NoticeAllListServlet extends HttpServlet {
 		request.setAttribute("blist", blist);
 		request.setAttribute("cCount", cCount);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/views/board/boardAllNoticeView.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/views/board/noticeAllListView.jsp");
 		
 		view.forward(request, response);
 		

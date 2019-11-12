@@ -848,6 +848,34 @@ public class QuestionDao {
 		
 		return result;
 	}
+
+
+	public int insertFreq(Connection conn, Question q) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertFreq");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, q.getqTitle());
+			pstmt.setString(2, q.getqContent());
+			pstmt.setInt(3, q.getqTag());
+			pstmt.setInt(4, q.getUserNo());
+			pstmt.setInt(5, q.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			close(pstmt);
+		}
+		
+		
+		return result;
+		
+	}
 	
 
 }

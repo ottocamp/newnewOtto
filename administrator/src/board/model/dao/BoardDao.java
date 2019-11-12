@@ -1543,6 +1543,77 @@ public class BoardDao {
 		return blist;
 	}
 
+	public int getSearchNoticeCount(Connection conn, String keyWord) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String sql = prop.getProperty("searchNoticeCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyWord);
+			pstmt.setString(2, keyWord);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}		
+		
+		return listCount;
+	}
+
+	public ArrayList<Board> getSearchearchNotice(Connection conn, String keyWord, int currentPage, int boardLimit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> blist = new ArrayList<>();
+		int startRow = (currentPage - 1) * boardLimit + 1;
+		int endRow = startRow + boardLimit - 1;
+		
+		String sql = prop.getProperty("searchNotice");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyWord);
+			pstmt.setString(2, keyWord);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+
+			
+			while(rset.next()) {
+				Board b = new Board();
+				b.setbNo(rset.getInt("b_no"));
+				b.setbTitle(rset.getString("b_title"));
+				b.setUpdateDate(rset.getDate("update_date"));
+				b.setbCount(rset.getInt("b_count"));	
+				b.setbWriter(rset.getString("user_name"));
+				
+				blist.add(b);
+			}
+					
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return blist;
+	}
+
 
 
 }
