@@ -603,7 +603,7 @@ button:hover:after{
             </div>
             
             </div>
-       		<div style="text-align: center;"><input type="checkbox" id="fav">
+       		<div style="text-align: center;"><input type="checkbox" id="fav" <%= checkFlag %>>
        		</div>
        
            
