@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="user.model.vo.*"%>
 <%
-
 	
-
 %>    
   
 <!DOCTYPE html>
@@ -50,6 +48,8 @@
 									class="ti-spray"></i> 로그인 관리 </a></li>
   								<li><a href="<%= request.getContextPath() %>/coupon.user"><i
 									class="ti-spray"></i> 쿠폰 관리 </a></li>
+								<li><a href="<%= request.getContextPath() %>/selectreview.user"><i
+									class="ti-spray"></i> 리뷰 관리 </a></li>	
 									
 									
 								<!-- 김상인 2019/11/10일 추가 / 위치 변경 필요 -->	
@@ -104,7 +104,6 @@
 							var uno = data.userNo;
 							var oname = data.originName;
 							var cname = data.changeName;
-
 							$(".propicArea").attr("src","<%= request.getContextPath() %>/resources/userpropic/"+cname+"?after");
 							
 		

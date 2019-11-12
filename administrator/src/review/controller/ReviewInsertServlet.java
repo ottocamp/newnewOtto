@@ -67,18 +67,10 @@ public class ReviewInsertServlet extends HttpServlet {
 		
 		if(result>0) {
 			
-			int result2 = new UserService().reservationChange(reNo2,5);
-			
-			if(result2>0) {
-				request.getSession().setAttribute("msg", "리뷰 등록 성공");
-				response.sendRedirect("selectreview.user");
-			}else {
-				request.getSession().setAttribute("msg", "리뷰 등록 실패(2)");
-				response.sendRedirect("selectreview.user");
-			}
-			
-			
 
+			request.getSession().setAttribute("msg", "리뷰 등록 성공");
+			response.sendRedirect("selectreview.user");
+			
 			
 		}else {
 			request.getSession().setAttribute("msg", "리뷰 등록 실패");

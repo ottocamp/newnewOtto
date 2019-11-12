@@ -2,8 +2,12 @@
     pageEncoding="UTF-8" import="java.util.*, user.model.vo.*, java.text.DecimalFormat"%>
 <%
 	ArrayList<UserReservation> urList = (ArrayList<UserReservation>)request.getAttribute("urList");
+	ArrayList<Integer> checkReview = (ArrayList<Integer>)request.getAttribute("checkReview");
 	DecimalFormat formatter = new DecimalFormat("##,###,###");
 	String msg = (String)session.getAttribute("msg");
+	
+	
+	
 	
 	for(UserReservation re : urList){
 			
@@ -13,7 +17,6 @@
 		case "2" : re.setReStatus("예약완료"); break;
 		case "3" : re.setReStatus("예약취소"); break;
 		case "4" : re.setReStatus("이용완료"); break;
-		case "5" : re.setReStatus("리뷰완료"); break;
 		
 		}
 		
@@ -75,11 +78,9 @@
 #sa-success {
 	display: none;
 }
-
 textarea {
 	resize: none;
 }
-
 .starR {
 	background:
 		url('http://miuu227.godohosting.com/images/icon/ico_review.png')
@@ -91,7 +92,6 @@ textarea {
 	text-indent: -9999px;
 	cursor: pointer;
 }
-
 .starR.on {
 	background-position: 0 0;
 }
@@ -126,7 +126,7 @@ textarea {
                         <div class="row">
 							<div class="col-sm-12">
 							
-								<h4 class="m-t-0 header-title">예약 관리 메뉴</h4>
+								<h4 class="m-t-0 header-title">이용내역</h4>
 
                                 <div class="table-responsive m-b-20">
                                     <h5><b>캠핑장 예약 정보</b></h5>
@@ -163,7 +163,14 @@ textarea {
                                         </thead>
 
                                         <tbody>
-                                        <% for(UserReservation ure : urList){ %>
+                                        
+                                        <% for(UserReservation ure : urList){ %>   
+                                        	<% boolean flag= false; %>
+                                            <% for(int i=0;i<checkReview.size();i++){ %>
+												<% if(checkReview.get(i)==ure.getReNo()){ %>	 
+												   <% flag= true; %>	 
+											<% } %>	 														
+                                        	<% } %>	 	                                                                    
 											<tr id="usergrade">
 												<td><%= ure.getReNo() %></td>
 												<td hidden="hidden"><%= ure.getCampCode() %></td>
@@ -175,14 +182,16 @@ textarea {
 												<td><%= ure.getReStatus() %></td>
 												<td><%if(ure.getReStatus().equals("결제완료")) {%>
 													<button type="button" class="btn btn-primary btn-xs" onclick="resChange(this,3);">취소하기</button>
-												<%}else if(ure.getReStatus().equals("예약완료")){ %>
+												<%}if(ure.getReStatus().equals("예약완료")){ %>
 													<button type="button" class="btn btn-primary btn-xs" onclick="resChange(this,4);">사용완료</button>
 													<button type="button" class="btn btn-primary btn-xs" onclick="resChange(this,3);">취소하기</button>
-												<%}else if(ure.getReStatus().equals("이용완료")) { %>	
+												<%}if(!flag && ure.getReStatus().equals("이용완료")) { %>	
 													<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick="reviewInsert(this);">리뷰 남기기</button>
-												<%}else{ %>	
-													취소불가
-												<%} %>										
+												<%}if(flag && ure.getReStatus().equals("이용완료")){ %>	
+													리뷰완료
+												<%} %>
+													
+																					
 												</td>	
 											</tr>
 										<%} %>
@@ -314,12 +323,10 @@ textarea {
 			var cCode = $(value).parent().parent().children().eq(1).text();
 			var cName = $(value).parent().parent().children().eq(2).text();
 			var reDate = $(value).parent().parent().children().eq(3).text();
-
 			$("#reNo2").val(parseInt(reNo2));
 			$("#cCode").val(cCode);
 			$("#cName").val(cName);
 			$("#reDate").val(reDate);
-
 		}
 		
 		

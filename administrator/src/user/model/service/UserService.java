@@ -3,6 +3,12 @@ package user.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import camp.model.dao.CampDao;
+import camp.model.vo.Attachment;
+import camp.model.vo.CampDetail;
+import camp.model.vo.CampInfo;
+import camp.model.vo.CampMinPrice;
+import camp.model.vo.CampReview;
 import coupon.model.dao.CouponDao;
 import coupon.model.vo.Coupon;
 import reservation.model.vo.Reservation;
@@ -368,6 +374,74 @@ public class UserService {
 		
 		return result;
 	}
+
+	public ArrayList<Integer> checkReviewCode(int uNo) {
+		Connection con = getConnection();
+		
+		ArrayList<Integer> checkReview = new UserDao().checkReviewCode(con,uNo);
+		
+		close(con);
+		
+		return checkReview;
+	}
+	
+	
+	
+	
+	public ArrayList<CampInfo> selectLocationList(String location) {
+		Connection conn = getConnection();
+		
+		ArrayList<CampInfo> cList = new UserDao().selectLocationList(conn, location);
+		
+		close(conn);
+	
+		return cList;
+	}
+	
+	public ArrayList<Attachment> selectLocationAttachmentList(String location) {
+		Connection conn = getConnection();
+		
+		ArrayList<Attachment> aList = new UserDao().selectLocationAttachmentList(conn, location);
+		
+		close(conn);
+		
+		return aList;
+	}
+	
+	public ArrayList<CampMinPrice> selectMinPrice() {
+
+		Connection conn = getConnection();
+		
+		ArrayList<CampMinPrice> cmpList = new UserDao().selectMinPrice(conn);
+		
+		close(conn);
+		
+		return cmpList;
+	}
+	
+	public ArrayList<CampDetail> selectDetail() {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<CampDetail> cdList = new UserDao().selectDetail(conn);
+		
+		close(conn);
+		
+		return cdList;
+	}
+	
+	public ArrayList<CampReview> selectReview() {
+		
+		Connection conn = getConnection();
+		
+		ArrayList<CampReview> crList = new UserDao().selectReview(conn);
+		
+		close(conn);
+		
+		return crList;
+	
+	}
+
 	
 	
 	
