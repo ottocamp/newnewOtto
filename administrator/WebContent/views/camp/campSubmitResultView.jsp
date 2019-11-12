@@ -1,30 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, reservation.model.vo.*, java.text.DecimalFormat"%>
-<%
-	ArrayList<Reservation> rList = (ArrayList<Reservation>)request.getAttribute("rList");
+    pageEncoding="UTF-8" import="java.util.*, camp.model.vo.*, user.model.vo.*"%>
 
-	
-	for(Reservation re : rList){
-		
-		switch(re.getReStatus()){
-		
-		case "1" : re.setReStatus("결제완료"); break;
-		case "2" : re.setReStatus("예약완료"); break;
-		case "3" : re.setReStatus("예약취소"); break;
-		case "4" : re.setReStatus("이용완료"); break;
-		
-		
-		}
-		
-	}
-	
-%>      
+<%
+	User user = new User();	
+
+	Attachment at = new Attachment();
+
+	ArrayList<CampInfo> cList = (ArrayList<CampInfo>)request.getAttribute("cList");
+%>    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약 관리 페이지</title>
-		<!-- jqury cdn -->
+<title>캠핑장 등록 관리 페이지</title>
+<!-- jqury cdn -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		
         <meta charset="utf-8" />
@@ -58,7 +49,6 @@
         <link href="<%= request.getContextPath() %>/resources/assets/plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
 		
 
-
 	<style type="text/css">
 		#sa-success{
 			display:none;
@@ -86,86 +76,58 @@
                 <div id="page-right-content">
 
                     <div class="container">
-                    
-                    
-                    
-                    
-                    
                         <div class="row">
 							<div class="col-sm-12">
 							
-								<h4 class="m-t-0 header-title">예약 관리 메뉴</h4>
+								<h4 class="m-t-0 header-title">등록 관리 메뉴</h4>
 
                                 <div class="table-responsive m-b-20">
-                                    <h5><b>캠핑장 예약 정보</b></h5>
-                                    <!-- <p class="text-muted font-13 m-b-30">
-                                        현재 오또캠핑을 통해서 예약된 모든 사항들이 표시됩니다.
-                 <br>결제완료는 예약자가 금액을 지불하고 사업장의 승인을 기다리는 상태, 예약완료는 사업자가 예약을 승인한 상태
-                 <br>예약취소는 예약이 취소된 상태, 이용완료는 캠핑장 이용이 모두 완료되어 환불이 불가능한 상태입니다.     
-                                    </p> -->
+                                    <h5><b>캠핑장 등록 신청 현황</b></h5>
+                                    <p class="text-muted font-13 m-b-30">
+                                        캠핑장 등록 후 진행 상황이 보여지는 페이지 입니다. 
+                                    </p>
 
                                     <table id="datatable" class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th>결제일시</th>
-                                            <th>예약번호</th>
-                                            <th>회원이름</th>
+                                            <th>캠핑장번호</th>
                                             <th>연락처</th>
-                                            <th>예약일자</th>
-                                            <th>결제금액</th>
-                                            <th>처리상태</th>
-                                            <th>승인</th>
-                                            <th>상세내역</th>
+                                            <th>캠핑장명</th>
+                                            <th>대표자명</th>                                            
+                                            <th>승인여부</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
-                                        <% for(Reservation re : rList){ %>
-											<tr id="usergrade">
-												<td><%= re.getRePayDate() %></td>
-												<td><%= re.getReNo() %></td>
-												<td><%= re.getReName() %></td>
-												<td><%= re.getRePhone() %></td>
-												<td><%= re.getReDate() %></td>
-												<td><%= re.getReCost() %></td>
-												<td><%= re.getReStatus() %></td>
-												<td><%if(re.getReStatus().equals("결제완료")) {%>
-													<button type="button" class="btn btn-primary btn-xs" onclick="approval(this);">승인</button>
-												<%}else if (re.getReStatus().equals("예약완료")){ %>
-													<button type="button" class="btn btn-primary btn-xs" onclick="delete(this);">예약취소</button>
-												<%}else{ %>
-													취소불가
-												<%} %>												
-												</td>
-												<td>
-													<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">상세보기</button>						
-												</td>	
-											</tr>
-						
+                                        <% if(cList != null) { %>
+                                        	<% for(CampInfo ca : cList) {  %>
+												<tr id="submitresult">
+													<td><%= ca.getcCode() %></td>
+													<td><%= ca.getcPhone() %></td>
+													<td><%= ca.getcName() %></td>
+													<td><%= ca.getcOperName() %></td>
+													<td><% if (ca.getcPermit() == "N" || ca.getcPermit() == null) {%>
+														승인대기
+														<% } else { %>
+														승인완료
+														<% }%>
+													</td>													
+												</tr>
+													<% } %>
+												<% } else { %>
+							
+													<tr id="submitresult">
+															<td></td>
+															<td></td>
+															<td></td>
+															<td></td>
+															<td></td>											</td>													
+														</tr>
+												<% } %>
                                         </tbody>
                                     </table>
                                 </div>
                                 
-                                <!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								  <div class="modal-dialog" role="document">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h5 class="modal-title" id="exampleModalLabel">예약 상세 내역</h5>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								          <span aria-hidden="true">&times;</span>
-								        </button>
-								      </div>
-								      <div class="modal-body">
-								        	여기다가 상세정보 출력해야 됨
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						
-								      </div>
-								    </div>
-								  </div>
-								</div>
                                 
 							</div>
 						</div>
@@ -182,7 +144,6 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                
                             </div>
                         </div>
 
@@ -206,7 +167,6 @@
             <!-- end .page-contentbar -->
         </div>
 
-		
 
 
 
@@ -242,9 +202,6 @@
 
         <!-- App Js -->
         <script src="<%= request.getContextPath() %>/resources/assets/js/jquery.app.js"></script>
-
-		
-		
 
 </body>
 </html>

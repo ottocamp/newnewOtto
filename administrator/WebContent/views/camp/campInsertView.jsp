@@ -63,11 +63,11 @@
 			display:none;
 		}
 		
-		.siteoptions {
+		.form-control {
 			display:inline-block;
 		}
 		
-		.siteoptions2{
+		.siteoptions2, .siteoptions3 {
 			display: none;
 		}
 		
@@ -85,12 +85,21 @@
 	
 	$(function(){
 		
-		$("#addOption").click(function(){
+		$("#addOption1").click(function(){
 			
 			 if($(".siteoptions2").css("display") == "none"){   
 				 	$(".siteoptions2").show();   
 			    } else {  
 			    	$(".siteoptions2").hide(); 
+			    }  
+		})
+		
+		$("#addOption2").click(function(){
+			
+			 if($(".siteoptions3").css("display") == "none"){   
+				 	$(".siteoptions3").show();   
+			    } else {  
+			    	$(".siteoptions3").hide(); 
 			    }  
 		})
 		
@@ -196,12 +205,12 @@
 										</div>
 										
 										<div class="form-group">
-											<label class="col-sm-2 control-label">사이트 옵션</label>
+											<label class="col-sm-2 control-label">사이트 정보</label>
 											<div class="col-sm-10">
 												<div class="siteoptions">
-													<button type="button" class="btn btn-secondary btn-sm" id="addOption" onclick="addOption();">+</button>
+													<button type="button" class="btn btn-secondary btn-sm" id="addOption1">+</button>
 														<select class="form-control" name="siteoption">
-															<option>사이트 옵션명</option>
+															<option>사이트 명</option>
 															<option value="ST1">파쇄석(소)</option>
 															<option value="ST2">파쇄석(대)</option>
 															<option value="ST3">글램핑</option>
@@ -209,29 +218,43 @@
 															<option value="ST5">팬션</option>
 															<option value="ST6">데크</option>
 															<option value="ST7">기타</option>
-												</select>
-													<input id="siteprice" type="text"  name="siteprice" placeholder="가격(원)">
-												</div>
+													</select>
 												
-												<div class="siteoptions2">
-													<button type="button" class="btn btn-secondary btn-sm">+</button>
-														<select class="form-control" name="siteoption">
-															<option>사이트 옵션명</option>
-															<option value="ST1">파쇄석(소)</option>
-															<option value="ST2">파쇄석(대)</option>
-															<option value="ST3">글램핑</option>
-															<option value="ST4">카라반</option>
-															<option value="ST5">팬션</option>
-															<option value="ST6">데크</option>
-															<option value="ST7">기타</option>
-												</select>
-													<input id="siteprice" type="text"  name="siteprice" placeholder="가격(원)">
+												
+													<input id="siteprice" type="text" class="form-control" name="siteprice" placeholder="가격(원)" size="3">
+													<input id="sitecount" type="text" class="form-control" name="sitecount" placeholder="보유 수량" size="3">
+													<input id="personcost" type="text" class="form-control" name="personcost" placeholder="추가인원요금(원)">
+													<input id="mindate" type="text" class="form-control" name="mindate" placeholder="최소숙박기간">
+													<input id="maxdate" type="text" class="form-control" name="maxdate" placeholder="최대숙박기간">
+													<input id="personlimit" type="text" class="form-control" name="personlimit" placeholder="최대숙박인원(명)">
+													
 												</div>
 												
 												
+											
+												
+											</div>
+										</div> 
+										
+										
+										<div class="form-group">
+											<label class="col-md-2 control-label">추가 옵션 정보</label>
+											
+										</div>
+										
+										<div class="form-group">
+											<label class="col-md-2 control-label">차량 추가 비용</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control" name="carcost" >
 											</div>
 										</div>
 										
+										<div class="form-group">
+											<label class="col-md-2 control-label">추가 비용</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control" name="additionalcost" >
+											</div>
+										</div>
 
 
 										<div class="m-b-20">
@@ -415,12 +438,14 @@
 													<textarea class="form-control" rows="5" id="refund" name="refund"></textarea>
 													</div>
 												</div>	
+												
 												<div class="col-md-10">
 													<label class="col-md-2 control-label">제안/기타</label>
 													<div class="col-md-10">
 													<textarea class="form-control" rows="5" id="suggest" name="suggest"></textarea>
 													</div>
 												</div>		
+												
 												
 										<div class="form-group">
 										
@@ -452,6 +477,12 @@
                                             <label class="control-label">사업자 등록증 첨부</label>
                                             <input type="file" class="filestyle" data-buttonname="btn-default" id="campPic6" name="campPic6">
                                         </div>	
+                                        
+                                        <div class="form-group">
+                                            <label class="control-label">캠핑장 전도 첨부</label>
+                                            <input type="file" class="filestyle" data-buttonname="btn-default" id="campPic7" name="campPic7">
+                                        </div>
+                                       
                                         
                                         <div class="row">
                                             <div class="col-lg-6">

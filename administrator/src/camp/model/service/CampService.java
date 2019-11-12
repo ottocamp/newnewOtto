@@ -9,6 +9,7 @@ import camp.model.vo.CampDetail;
 import camp.model.vo.CampInfo;
 import camp.model.vo.CampMinPrice;
 import camp.model.vo.CampReview;
+import camp.model.vo.ReservationCamp;
 
 import static common.JDBCTemplate.*;
 
@@ -186,4 +187,48 @@ public class CampService {
 
 		
 
+		public ArrayList<CampInfo> selectSubmitResult(int uNo) {
+			Connection conn = getConnection();
+			
+			ArrayList<CampInfo> clList = new CampDao().selectSubmitResult(conn, uNo);
+			
+			
+			close(conn);
+		
+			return clList;
+		}	
+		
+		public int insertCamp(CampInfo c, ReservationCamp rc, String siteoption, String sitecount, ArrayList<Attachment> fileList) {
+	         Connection conn = getConnection();
+	         
+	         CampDao cDao = new CampDao();
+	         System.out.println("CampService의 c : " + c);
+	         System.out.println("CampService의 rc : " + rc);
+	         System.out.println("CampService의 fileList : " + fileList);
+	      
+	         
+	         int result1 = cDao.insertCamp(conn, c);
+	        
+	        	 commit(conn);
+	        	 int result2 = cDao.insertCampDetail(conn, rc, siteoption, sitecount);
+	        	 commit(conn);
+	         int result3 = cDao.insertCampPics(conn, fileList);
+	         
+	         System.out.println("insertCamp 결과 : " + result1);
+	         System.out.println("insertCampDetail 결과 : " + result2);
+	         System.out.println("insertCampPics 결과 : " + result3);
+	         
+	         if(result1 > 0 && result2 > 0 && result3 > 0) {
+	            commit(conn);
+	         } else {
+	            rollback(conn);
+	         }
+	         
+	         close(conn);
+	         
+	         return result1;
+
+}
+		
+		
 }
