@@ -167,13 +167,13 @@
                     <!-- end container -->
 
                     <div class="footer">
-                        <div class="pull-right hidden-xs">
-                            Project Completed <strong class="text-custom">39%</strong>.
-                        </div>
-                        <div>
-                            <strong>Simple Admin</strong> - Copyright © 2017
-                        </div>
-                    </div> <!-- end footer -->
+					<div class="pull-right hidden-xs">
+						<strong class="text-custom"></strong>
+					</div>
+					<div>
+							<strong>OH ! DDO</strong> - Copyright © 2019
+					</div>
+				</div>
 
                 </div>
                 <!-- End #page-right-content -->

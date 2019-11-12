@@ -161,13 +161,13 @@
                     <form action="<%= request.getContextPath() %>/gradeSearch.li" method="post" onsubmit="return validate();">
                     <div class="row">
 							<div class="col-sm-12">
-							<h4 class="m-t-0 header-title">회원등급관리메뉴 <div class="btn-group" style="padding-left: 1000px;">
+							<span style="font-size: 20px; font-weight: bold; line-height: 35px;">회원등급관리메뉴 </span><div class="btn-group" style="float: right;">
                                         <button type="button" class="btn btn-default" id="gall">전체선택</button>
                                         <button  class="btn btn-default">검색하기</button>
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">탐색하기</button>
                                     </div>
 							
-							</h4>
+							<hr style="margin-top: 10px;">
 								<div class="card-box widget-inline" style="clear: both;">
 									<div class="row">
 										<div class="col-lg-3 col-sm-6" id="gwelcome" >
@@ -354,13 +354,13 @@
                     </div>
                     <!-- end container -->
                     <div class="footer">
-                        <div class="pull-right hidden-xs">
-                            Project Completed <strong class="text-custom">39%</strong>.
-                        </div>
-                        <div>
-                            <strong>Simple Admin</strong> - Copyright © 2017
-                        </div>
-                    </div> <!-- end footer -->
+					<div class="pull-right hidden-xs">
+						<strong class="text-custom"></strong>.
+					</div>
+					<div>
+							<strong>OH ! DDO</strong> - Copyright © 2019
+					</div>
+				</div>
 
                 </div>
                 <!-- End #page-right-content -->
