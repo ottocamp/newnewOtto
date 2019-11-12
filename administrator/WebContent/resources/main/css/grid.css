@@ -1,0 +1,68 @@
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font-size: 10px;
+                
+                }
+                
+                .wrapper {
+                width: 90vw;
+                height: 90vh;
+                margin: 5vh auto 5vh auto;
+                display: grid;
+                grid-template-rows: 25% 25% 25% 25%;
+                grid-template-columns: 25% 25% 25% 25%;
+                grid-gap: 1rem;
+                grid-template-areas:
+                "box1 box1 box2 box3"
+                "box1 box1 box4 box3"
+                "box5 box6 box7 box7"
+                "box8 box8 box9 box10"
+                }
+                
+                
+                .wrapper .grid-box{
+                    background: #eeeeee;
+                    transition: all 250ms;
+                    font-size: 5rem;
+                    color: white;
+                    font-family: sans-serif;
+                    box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,0.12), 0 1px
+                    2px rgba(0,0,0,0.24);
+                    animation: fadein 1s ease-out normal backwards;
+                
+                }
+                
+                .wrapper .grid-box:hover {
+                z-index: 2;
+                position: relative;
+                box-shadow: 0 1.5rem 2.8rem rgba(0,0,0,0.15), 0 1rem 1rem
+                rgba(0,0,0,0.15);
+                transform:translate(0,-0.0.5rem) scale(1.01);
+                
+                }
+                
+                
+                
+                .wrapper .element1 { grid-area: box1; animation-delay:0;}
+                .wrapper .element2 { grid-area: box2; animation-delay:100ms;}
+                .wrapper .element3 { grid-area: box3; animation-delay:200ms;}
+                .wrapper .element4 { grid-area: box4; animation-delay:200ms;}
+                .wrapper .element5 { grid-area: box5; animation-delay:100ms;}
+                .wrapper .element6 { grid-area: box6; animation-delay:200ms;}
+                .wrapper .element7 { grid-area: box7; animation-delay:300ms;}
+                .wrapper .element8 { grid-area: box8; animation-delay:200ms;}
+                .wrapper .element9 { grid-area: box9; animation-delay:400ms;}
+                .wrapper .element10 { grid-area: box10; animation-delay:500ms;}
+                
+                @keyframes fadein {
+                
+                    0% {transform: scale(0);}
+                    70% {transform: scale(1.05);}
+                    100% {transform: scale(1);}
+                }
+                
+                
