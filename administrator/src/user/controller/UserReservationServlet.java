@@ -37,11 +37,15 @@ public class UserReservationServlet extends HttpServlet {
 		User loginUser = (User)request.getSession().getAttribute("loginUser");	
 		int uNo = loginUser.getUserNo();
 		
+		
 		ArrayList<UserReservation> urList = new UserService().SelectCampList(uNo);
+		
+		//리뷰남긴 예약번호 같고 오기
+		ArrayList<Integer> checkReview = new UserService().checkReviewCode(uNo);
 		
 		
 		request.setAttribute("urList", urList);
-		
+		request.setAttribute("checkReview", checkReview);
 		request.getRequestDispatcher("views/user/userUsed.jsp").forward(request, response);
 	}
 
