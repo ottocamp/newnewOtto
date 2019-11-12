@@ -249,6 +249,23 @@ public class QuestionService {
 	}
 
 
+	public int insertFreq(Question q) {
+		Connection conn = getConnection();
+		
+		int result = new QuestionDao().insertFreq(conn, q);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 
 
 	

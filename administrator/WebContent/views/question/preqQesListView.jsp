@@ -352,7 +352,7 @@
 	
                             <div id="insertBtn" class="fontBorder">
                                	<% if(userType.equals("A")) { %>                 
-                               		<button type="button" class="btn btn-primary boardBtn insertBtn fontBorder" onclick="location.href='views/board/noticeInsertForm.jsp'">등 록</button>  
+                               		<button type="button" class="btn btn-primary boardBtn insertBtn fontBorder" onclick="location.href='views/question/freqInsertForm.jsp'">등 록</button>  
                                	<% } %>
                             </div>
 							<br><br>

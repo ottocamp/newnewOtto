@@ -12,6 +12,7 @@ import java.util.HashMap;
 import board.model.dao.BoardDao;
 import board.model.vo.Board;
 import board.model.vo.Comment;
+import question.model.vo.Question;
 
 public class BoardService {
 
@@ -501,10 +502,22 @@ public class BoardService {
 		return blist;
 	}
 
+	public int getSearchNoticeCount(String keyWord) {
+		Connection conn = getConnection();
+		
+		int listCount = new BoardDao().getSearchNoticeCount(conn, keyWord);
+		
+		close(conn);
+		
+		return listCount;
+	}
 
-
-
-
-
+	public ArrayList<Board> getSearchearchNotice(String keyWord, int currentPage, int boardLimit) {
+		Connection conn = getConnection();
+		
+		ArrayList<Board> blist = new BoardDao().getSearchearchNotice(conn, keyWord, currentPage, boardLimit);
+			
+		return blist;
+	}
 
 }

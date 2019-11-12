@@ -24,6 +24,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Atto</title>
+		
 		<script>
 			var msg = "<%= msg %>";
 			
@@ -273,6 +274,36 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+            
+            
+            #insertBtn{
+                float: right;
+                margin: 10px 20px;
+                height: 45px;
+                width: 30%;
+            }
+            
+            button[type='button']{
+                float: right;
+                height: 100%;
+
+                margin: 0 3px;
+            }
+
+            #insertBtn button:first-child{
+                width: 30%;
+
+                background-color: darkblue;
+                color: aliceblue;
+            }
+
+            #insertBtn button:last-child{
+                width: 45%;
+                
+                background-color: rgb(204, 204, 204);
+                color: rgb(112, 122, 179);
+            }
+            
         </style>
 		
 	</head>
@@ -373,7 +404,7 @@
 	                        <br>
 		
 	                        <div class="searchArea">
-                                <form class="searchForm" role="search" method="post" action="<%= request.getContextPath() %>/allSearch.bo" onsubmit="return checkKeyword();">
+                                <form class="searchForm" role="search" method="post" action="<%= request.getContextPath() %>/allSearch.no" onsubmit="return checkKeyword();">
 
                                     <div id="searchText">
                                     	<% if(keyWord.equals("")) { %>
@@ -394,6 +425,7 @@
 
                             <div id="insertBtn" class="fontBorder">
                             	<button type="button" class="btn btn-primary boardBtn insertBtn fontBorder" onclick="location.href='views/board/noticeInsertForm.jsp'">공지 작성</button>                                  	
+                            	<button type="button" class="btn btn-secondary boardBtn insertBtn fontBorder" onclick="location.href='views/question/freqInsertForm.jsp'">Q&A 등록</button>                                  	
                             </div>
 	
 	                        <br><br>
@@ -435,21 +467,21 @@
 			                                	<% if(currentPage - 1 <= 0)  { %>
 			                               			<button class="boardBtn" disabled style="color:gray">이전</button>
 			                                	<% }else { %>
-			                                   		<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.bo?currentPage=<%= currentPage - 1 %>&keyWord=<%= keyWord %>'">이전</button>
+			                                   		<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.no?currentPage=<%= currentPage - 1 %>&keyWord=<%= keyWord %>'">이전</button>
 			                                	<% } %>  
 			                                	
 			                                	<% for(int i = startPage; i <= endPage; i++) { %>
 			                                		<% if(i == currentPage) { %>
 			                                			<button class="boardBtn" disabled style="color:blue"><%= i %></button>
 			                                		<% }else { %>
-			                                			<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.bo?currentPage=<%= i %>&keyWord=<%= keyWord %>'"><%= i %></button>
+			                                			<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.no?currentPage=<%= i %>&keyWord=<%= keyWord %>'"><%= i %></button>
 			                                		<% } %>                                                           
 			                                	<% } %>
 			                                      
 			                                	<% if(currentPage == maxPage)  { %>
 			                                		<button class="boardBtn" disabled style="color:gray">다음</button>
 			                                	<% }else { %>
-			                                    	<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.bo?currentPage=<%= currentPage + 1 %>&keyWord=<%= keyWord %>'">다음</button>
+			                                    	<button class="boardBtn" onclick="location.href='<%= request.getContextPath() %>/allSearch.no?currentPage=<%= currentPage + 1 %>&keyWord=<%= keyWord %>'">다음</button>
 			                                	<% } %>
 			                                </div>
 		                                	

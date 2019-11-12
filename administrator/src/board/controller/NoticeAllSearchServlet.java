@@ -13,20 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
 import board.model.vo.Board;
+import board.model.vo.Comment;
 import board.model.vo.PageInfo;
 import user.model.vo.User;
 
 /**
- * Servlet implementation class BoardMySearchServlet
+ * Servlet implementation class NoticeAllSearchServlet
  */
-@WebServlet("/mySearch.bo")
-public class BoardMySearchServlet extends HttpServlet {
+@WebServlet("/allSearch.no")
+public class NoticeAllSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardMySearchServlet() {
+    public NoticeAllSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,11 +38,8 @@ public class BoardMySearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String keyWord = (String)request.getParameter("keyWord");
-		User u = (User)request.getSession().getAttribute("loginUser");
-		int userNo = u.getUserNo();
-
 		
-		int myBoardCount = new BoardService().searchMyCount(userNo, keyWord);
+		int listCount = new BoardService().getSearchNoticeCount(keyWord);
 		int currentPage;
 		int startPage;
 		int endPage;
@@ -57,26 +55,25 @@ public class BoardMySearchServlet extends HttpServlet {
 		pageLimit = 5;
 		boardLimit = 8;
 
-		maxPage = (int)Math.ceil((double)myBoardCount / boardLimit);
+		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		startPage = (currentPage - 1) / pageLimit * pageLimit + 1;
 		endPage = startPage + pageLimit - 1;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
 		
-		PageInfo pi = new PageInfo(currentPage, myBoardCount, pageLimit, maxPage, startPage, endPage, boardLimit);
-		ArrayList<Board> blist = new BoardService().searchMyBoard(userNo, keyWord, currentPage, boardLimit);
+		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit);
+		ArrayList<Board> blist = new BoardService().getSearchearchNotice(keyWord, currentPage, boardLimit);
 		HashMap cCount = new BoardService().getcCount(blist);
-
+		
 		request.setAttribute("pi", pi);
 		request.setAttribute("blist", blist);
-		request.setAttribute("cCount", cCount);
 		request.setAttribute("keyWord", keyWord);
+		request.setAttribute("cCount", cCount);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/views/board/noticeAllListView.jsp");
 		
 		view.forward(request, response);
-	
 	}
 
 	/**
