@@ -162,13 +162,12 @@
 
 				<div class="footer">
 					<div class="pull-right hidden-xs">
-						Project Completed <strong class="text-custom">39%</strong>.
+						<strong class="text-custom"></strong>
 					</div>
 					<div>
-						<strong>Simple Admin</strong> - Copyright © 2017
+							<strong>OH ! DDO</strong> - Copyright © 2019
 					</div>
 				</div>
-				<!-- end footer -->
 
 			</div>
 			<!-- End #page-right-content -->
