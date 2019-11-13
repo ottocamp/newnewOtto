@@ -2,10 +2,19 @@
 	pageEncoding="UTF-8" import="camp.model.vo.*, java.util.*"%>
 	
 <%
-	ArrayList<CampInfoReservation> cList = (ArrayList<CampInfoReservation>)request.getAttribute("cList");
-	ArrayList<CampSiteReservation> sList = (ArrayList<CampSiteReservation>)request.getAttribute("sList");
-	ArrayList<CampOptionReservation> oList = (ArrayList<CampOptionReservation>)request.getAttribute("oList");
-	ArrayList<Attachment> aList = (ArrayList<Attachment>)request.getAttribute("aList");
+	ArrayList<CampRefoSiteEnter> sList = (ArrayList<CampRefoSiteEnter>)request.getAttribute("sList");
+	ArrayList<CampRefoOptionEnter> oList = (ArrayList<CampRefoOptionEnter>)request.getAttribute("oList");
+	//ArrayList<Attachment> aList = (ArrayList<Attachment>)request.getAttribute("aList");
+	
+	int sindex1 = sList.get(0).getDateMAx();
+	int sindex2 = sList.get(0).getStayMAx();
+	int oindex1 = oList.get(0).getOpMax1();
+	int oindex2 = oList.get(0).getOpMax2();
+	
+	String cName = sList.get(0).getcName();
+	String name = (String)request.getAttribute("name");
+	String phone = (String)request.getAttribute("phone");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -34,6 +43,9 @@
 
 <script src="<%= request.getContextPath() %>/resources/assets/js/modernizr.min.js"></script>
 
+<!-- 아임포트 -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
 
 #page-contentbar {
@@ -72,15 +84,16 @@ bottom: 0;
 			
 			<!-- block-1 -->
 			<div>
-			캠핑장 사이트 전도.
+			
 			</div>
+			
 			<!-- block-1 end -->
 			
 			<hr>
 			
 			<!-- block-2 -->
-			캠핑장 예약 폼	
-			<form action="" method="post">
+			<form action="<%= request.getContextPath() %>/ReInFo.rif" method="post">
+			<div name="" hidden><input type="text" hidden="" name="campname" value="<%= cName %>"></div>
 			<div>
 			날짜 선택 : <input type="date" name="entDate">
 			</div>
@@ -90,18 +103,19 @@ bottom: 0;
 			<div>
 				<table class="table m-0 table-bordered">
 					<tr>
-						<td>사이트1(인클루드)&nbsp;<input type="checkbox" name="st1" id="st-ck1"></td>
-						<td>사이트2(인클루드)&nbsp;<input type="checkbox" name="st2"  id="st-ck2"></td>
-						<td>사이트3(인클루드)&nbsp;<input type="checkbox" name="st3" id="st-ck3"></td>
+						<% for(CampRefoSiteEnter crse : sList) { %>
+						<td><%= crse.getsType()%> &nbsp;<input type="checkbox" class="st-ck1" id="st-ck1"></td>
+						<% } %>
+
 					</tr>
 				</table>
 			</div>
 			<!-- 사이트 버튼 보관div -->
 			<div> 	
 			<p>
-			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#st1InsertReservation" aria-expanded="false" aria-controls="st1InsertReservation" id="st-btn1">사이트1 버튼</button>
-  			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#st2InsertReservation" aria-expanded="false" aria-controls="st2InsertReservation" id="st-btn2">사이트2 버튼</button>
-  			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#st3InsertReservation" aria-expanded="false" aria-controls="st3InsertReservation" id="st-btn3">사이트3 버튼</button>
+			<button class="btn btn-dark btn-rounded btn-hide st-btn1" type="button" data-toggle="collapse" data-target="#st1InsertReservation" aria-expanded="false" aria-controls="st1InsertReservation" id="st-btn1">사이트</button>
+  			<!-- <button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#st2InsertReservation" aria-expanded="false" aria-controls="st2InsertReservation" id="st-btn2">사이트2 버튼</button>
+  			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#st3InsertReservation" aria-expanded="false" aria-controls="st3InsertReservation" id="st-btn3">사이트3 버튼</button> -->
   			</p>
   			</div> 
   			<!-- 사이트 버튼 보관div 끗 -->	
@@ -112,69 +126,47 @@ bottom: 0;
     		<div class="card card-body">
         		<table class="table table-bordered">
           			<tr class="success">
-            			<th>사이트 테이블1</th><th>이용인원(기준/최대)</th><th>이용금액</th><th>추가인원</th><th>예약기간</th><th>예약인원</th><th>합계</th><th>선택</th>
+            			<th>사이트 테이블1</th><th>이용금액</th><th>추가인원</th><th>예약기간</th><th>예약인원</th><th>선택</th>
           			</tr>
+          			<% for(CampRefoSiteEnter crse : sList) { %>
           			<tr>
-          		  		<td></td>
-            			<td></td>
-            			<td></td>
-            			<td></td>
-            			<td><select><option>1</option></select></td>
-            			<td><select><option>1</option></select></td>
-            			<td></td>
-            			<td><input type="checkbox"></td>
+          		  		<td><%= crse.getReSiType() %></td>
+            			<td><%= crse.getsPrice() %></td>
+            			<td><%= crse.getAddPrice() %></td>
+            			<td>
+            			<select>
+            			<%for(int i = 1; i < sindex1; i++) { %>
+            			<option>
+            				<%= i %>박 <%= i+1 %>일
+            			</option>
+            			<% } %>
+            			</select>
+            			</td>
+            			<td>
+            			<select>
+            			<%for(int i = 1; i <= sindex2; i++) { %>
+            			<option>
+            				<%= i %>명
+            			</option>
+            			<% } %>
+            			</select>
+            			</td>
+            			<td ><input type="checkbox"></td>
           			</tr>
+          			<% } %>
         		</table>	
     		</div>
   			</div>
-  			
-  			<div class="collapse" id="st2InsertReservation">
-    		<div class="card card-body">
-        		<table class="table table-bordered">
-          			<tr class="success">
-            			<th>사이트 테이블2</th><th>이용인원(기준/최대)</th><th>이용금액</th><th>추가인원</th><th>예약기간</th><th>예약인원</th><th>합계</th><th>선택</th>
-          			</tr>
-          			<tr>
-          		  		<td></td>
-            			<td></td>
-            			<td></td>
-            			<td><select><option>1</option></select></td>
-            			<td><select><option>1</option></select></td>
-            			<td></td>
-            			<td><input type="checkbox"></td>
-          			</tr>
-        		</table>	
-    		</div>
-  			</div>
-  			
-  			<div class="collapse" id="st3InsertReservation">
-    		<div class="card card-body">
-        		<table class="table table-bordered">
-          			<tr class="success">
-            			<th>사이트 테이블 3</th><th>이용인원(기준/최대)</th><th>이용금액</th><th>추가인원</th><th>예약기간</th><th>예약인원</th><th>합계</th><th>선택</th>
-          			</tr>
-          			<tr>
-          		  		<td></td>
-            			<td></td>
-            			<td></td>
-            			<td></td>
-            			<td><select><option>1</option></select></td>
-            			<td><select><option>1</option></select></td>
-            			<td></td>
-            			<td><input type="checkbox"></td>
-          			</tr>
-        		</table>	
-    		</div>
-  			</div>
-				
+
 
 			<hr>
 
 			<div id="campEtcReservation">
 				<table class="table table-bordered">
 					<tr>
-						<td>옵션1(인클루드)<input type="checkbox" name="op1" id="op-ck1"></td>
-						<td>옵션2(인클루드)<input type="checkbox" name="op2" id="op-ck2"></td>
+						<% for(CampRefoOptionEnter croe : oList) { %>
+						<td><%= croe.getoType() %><input type="checkbox" name="op1" id="op-ck1"></td>
+						<% } %>
 					</tr>
 				</table>
 			</div>
@@ -182,8 +174,7 @@ bottom: 0;
 			<!-- 옵션 버튼 보관div -->	
 			<div> 
 			<p>
-			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#op1InsertReservation" aria-expanded="false" aria-controls="op1InsertReservation" id="op-btn1">옵션1 버튼</button>
-  			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#op2InsertReservation" aria-expanded="false" aria-controls="op2InsertReservation" id="op-btn2">옵션2 버튼</button>
+			<button class="btn btn-dark btn-rounded btn-hide" type="button" data-toggle="collapse" data-target="#op1InsertReservation" aria-expanded="false" aria-controls="op1InsertReservation" id="op-btn1">옵션</button>
   			</p>
   			</div> 
   			<!-- 옵션 버튼 보관div 끗 -->	
@@ -193,46 +184,41 @@ bottom: 0;
 					<tr class="success">
 						<th>옵션이름</th>
 						<th>가격</th>
-						<th>기간</th>
-						<th>소모수</th>
-						<th>합계</th>
+						<th>사용기간</th>
+						<th>대수/인원 / 기타.</th>
 						<th>선택</th>
 					</tr>
+					<% for(CampRefoOptionEnter croe : oList) { %>
 					<tr>
-						<td>옵션1(인클루드)</td>
-						<td></td>
-						<td><select><option>1</option></select></td>
-						<td><select><option>1</option></select></td>
-						<td></td>
+						<td><%= croe.getoType() %></td>
+						<td><%= croe.getoPrice() %></td>
+						<td>
+						<select>
+						<%for(int i = 1; i <= oindex1; i++) { %>
+						<option>
+						<%= i %>
+						</option>
+						<% } %>
+						</select>
+						</td>
+						<td>
+						<select>
+						<%for(int i = 1; i <= oindex2; i++) { %>
+						<option>
+						<%= i %>
+						</option>
+						<% } %>
+						</select>
+						</td>
 						<td><input type="checkbox"></td>
 					</tr>
-				</table>
-			</div>
-				
-			<div class="collapse" id="op2InsertReservation">
-				<table class="table table-bordered">
-					<tr class="success">
-						<th>옵션이름</th>
-						<th>가격</th>
-						<th>기간</th>
-						<th>소모수</th>
-						<th>합계</th>
-						<th>선택</th>
-					</tr>
-					<tr>
-						<td>옵션2(인클루드)</td>
-						<td></td>
-						<td><select><option>1</option></select></td>
-						<td><select><option>1</option></select></td>
-						<td></td>
-						<td><input type="checkbox"></td>						
-					</tr>
+					<% } %>
 				</table>
 			</div>
 
 			<hr>
 			
-			<div>
+			<!-- <div>
 				<table class="table table-bordered">
 					<tr class="success">
 						<th>쿠폰</th>
@@ -249,34 +235,33 @@ bottom: 0;
 						<td><input type="checkbox"></td>						
 					</tr>
 				</table>
-			</div>
+			</div> -->
 			
 
-			<div id="ReservationTotalPayment">
+			<!-- <div id="ReservationTotalPayment">
 				<table class="table table-sm table-bordered">
 					<tr>
 						<td>총 결제금액.</td>
-						<td>(체크된 합계금액을 땡겨오는 역할)</td>
+						<td id="inHere">(체크된 합계금액을 땡겨오는 역할)</td>
 					</tr>
 				</table>
-			</div>
+			</div> -->
 			
 		</div><!-- 사이트 전체를 덮는 -->
 			<!-- block-2 end -->
 			
-			
-			<!-- block-3 -->
+			<!-- <div>
+			block-3
 			<div id="rePrecautions" style="background: white">
 				캠핑장 주의사항
 				<div id="campPrecautions"></div>
 			</div>
-			<!-- block-3 end -->
-
+			block-3 end
+			</div> -->
 <hr>
 
 			<!-- block-4 -->
 			<div id="rePrivateInsert" style="background: white;">
-				개인정보 제출
 				<div id="submitForm">
 				<table class="table table-bordered">
 					<tr>
@@ -296,6 +281,7 @@ bottom: 0;
 						<td colspan="3"><textarea name="message" cols=55 rows=5 style="resize:none"></textarea></td>
 					</tr>
 				</table>
+				
 				</div>
 				
 				<br>
@@ -314,16 +300,22 @@ bottom: 0;
 				<br>
 				
 				<div id="payment">
-				무통장입금 : <input type="radio" name="payment" value="bankDeposit">
-				현지 지불 :  <input type="radio" name="payment" value="localPayment">
-				카드 : <input type="radio" name="payment" value="creditCard">
+				<table class="table">
+					<tr>
+					<td>현지 지불 :  <input type="radio" name="payment" value="localPayment"></td>
+					<td>카드 : <input type="radio" name="payment" value="creditCard"></td>
+					</tr>
+				</table>
+				
+				
 				</div>
 				
 				
 			</div>
 			<!-- block-4 end -->
-
-		<button type="submit" class="btn btn-dark btn-lg" style="float: right;" onclick="IMP.request_pay">예약</button>
+		
+		<button type="submit" class="btn btn-dark btn-lg" style="float: right;">예약하기</button>
+		<button type="button" class="btn btn-primary btn-lg" style="float: right;" onclick="pay()">결제</button>
 		</form>
 
 
@@ -345,15 +337,11 @@ bottom: 0;
 
 	<!-- script -->
 	<script>
+
 		// 사이트 체크시 리스트 버튼 숨김/드러냄
-		$(function() {
+		$(function () {
 			$(".btn-hide").hide();
 		});
-
-		/* $(function() {
-		    $(".st-InsertReservation").hide();
-		    
-		}) */
 
 		$("#st-ck1").change(function() {
 			if ($("#st-ck1").prop("checked")) {
@@ -361,22 +349,6 @@ bottom: 0;
 			} else {
 				$("#st-btn1").eq(0).hide();
 				//$("#st1InsertReservation").eq(0).hide();
-			}
-		});
-
-		$("#st-ck2").change(function() {
-			if ($("#st-ck2").prop("checked")) {
-				$("#st-btn2").eq(0).show();
-			} else {
-				$("#st-btn2").eq(0).hide();
-			}
-		});
-
-		$("#st-ck3").change(function() {
-			if ($("#st-ck3").prop("checked")) {
-				$("#st-btn3").eq(0).show();
-			} else {
-				$("#st-btn3").eq(0).hide();
 			}
 		});
 
@@ -392,45 +364,46 @@ bottom: 0;
 			}
 		});
 
-		$("#op-ck2").change(function() {
-			if ($("#op-ck2").prop("checked")) {
-				$("#op-btn2").eq(0).show();
-			} else {
-				$("#op-btn2").eq(0).hide();
-			}
-		});
-
 		// 옵션 체크시 리스트 버튼 숨김/드러냄 종료
 		
-		//아임포트 결제
-		
-		
-		IMP.request_pay({
-			pg : 'inicis', // version 1.1.0부터 지원.
-			pay_method : 'card',
-			merchant_uid : 'merchant_' + new Date().getTime(),
-			name : '주문명:결제테스트',
-			amount : 14000,
-			buyer_email : 'iamport@siot.do',
-			buyer_name : '구매자이름',
-			buyer_tel : '010-1234-5678',
-			buyer_addr : '서울특별시 강남구 삼성동',
-			buyer_postcode : '123-456',
-			m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-		}, function(rsp) {
-			if (rsp.success) {
-				var msg = '결제가 완료되었습니다.';
-				msg += '고유ID : ' + rsp.imp_uid;
-				msg += '상점 거래ID : ' + rsp.merchant_uid;
-				msg += '결제 금액 : ' + rsp.paid_amount;
-				msg += '카드 승인번호 : ' + rsp.apply_num;
-			} else {
-				var msg = '결제에 실패하였습니다.';
-				msg += '에러내용 : ' + rsp.error_msg;
-			}
-			alert(msg);
-		});
+
 	</script>	
+	
+		<!-- 아임포트  -->
+	 <script type="text/javascript">
+        function pay() {
+			 
+			var IMP = window.IMP; // 생략가능
+			IMP.init('iamport'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			var msg;
+			
+			IMP.request_pay({
+			    pg : 'inicis', // version 1.1.0부터 지원.
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : '캠핑장 결제',
+			    amount : 15000,
+			    //buyer_email : 'iamport@siot.do',
+			    buyer_name : '<%=name%>',
+			    buyer_tel : '<%=phone%>',
+			    //buyer_addr : '서울특별시 강남구 삼성동',
+			    //buyer_postcode : '123-456',
+			    //m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+			    if ( rsp.success ) {
+			        var msg = '결제가 완료되었습니다.';
+			        //msg += '고유ID : ' + rsp.imp_uid;
+			       	//msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        //msg += '결제 금액 : ' + rsp.paid_amount;
+			       	//msg += '카드 승인번호 : ' + rsp.apply_num;
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			    }
+			    alert(msg);
+			});
+		}
+        </script>
 	<!-- script end -->
 	
 

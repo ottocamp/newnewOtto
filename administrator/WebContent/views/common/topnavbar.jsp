@@ -58,6 +58,7 @@
 
 						<!-- Top nav left menu -->
 						<ul class="nav navbar-nav hidden-sm hidden-xs top-navbar-items" style="float: right; margin-right: 79px;">
+							<li><a href="" onclick="win()">예약확인</a></li>
 							<li><a href="<%= request.getContextPath() %>/list.bo?b_tag=0" >게시판</a></li>
 							<li><a href="<%= request.getContextPath() %>/freqList.qe">Q & A</a></li>
 							<% if(loginUser != null){ %>
@@ -87,5 +88,15 @@
 			</div>
 			<!-- end navbar -->
 		</div>
+		<script type="text/javascript">
+		 function win() {
+
+		       var popupX = (window.screen.width / 2) - (800 / 2);
+		       var popupY= (window.screen.height / 2) - (800 / 2);
+
+		        window.open("<%= request.getContextPath() %>/views/reservation/reservationSimpleSearchView.jsp", '', 'height=800, width=800, left='+ popupX + ', top='+ popupY);
+
+		   }
+		 </script>
 </body>
 </html>

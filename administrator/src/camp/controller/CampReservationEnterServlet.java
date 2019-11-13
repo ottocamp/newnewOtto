@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import camp.model.service.CampRefoService;
 import camp.model.service.CampService;
 import camp.model.vo.Attachment;
-import camp.model.vo.CampRefoEnter;
+import camp.model.vo.CampRefoOptionEnter;
+import camp.model.vo.CampRefoSiteEnter;
 
 /**
  * Servlet implementation class CampReservationServlet
@@ -36,20 +37,19 @@ public class CampReservationEnterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int cNo = Integer.parseInt(request.getParameter("cNo"));
-		System.out.println(cNo);
+		System.out.println("캠핑장 번호 : " +cNo);
 		
-		System.out.println("0");
-		ArrayList<CampRefoEnter> eList = new CampRefoService().selectCampList(cNo);
-
+		System.out.println("0-1");
+		ArrayList<CampRefoSiteEnter> sList = new CampRefoService().selectSiteList(cNo);
+		System.out.println("1-1");
+		ArrayList<CampRefoOptionEnter> oList = new CampRefoService().selectOptionList(cNo);
 		
-		ArrayList<Attachment> aList = new CampService().selectMainAttachmentList();
 		
-		System.out.println(eList);
-
-		System.out.println(aList);
-			
-		request.setAttribute("eList", eList);
-		request.setAttribute("aList", aList);
+		System.out.println(sList);
+		System.out.println(oList);
+		// 반드시 커밋후 실행할것.
+		request.setAttribute("sList", sList);
+		request.setAttribute("oList", oList);
 		
 		request.getRequestDispatcher("views/reservation/reservationFormView.jsp").forward(request, response);
 		

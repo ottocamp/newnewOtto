@@ -69,6 +69,9 @@
                   <a href="#" class="menu_main_responsive_button icon-menu-1"></a>
                   <nav role="navigation" class="menu_main_nav_area">
                      <ul id="menu_main" class="menu_main_nav">
+                         <li class="menu-item menu-item-has-children" id="boardMenu" >
+                           <a href="" onclick="win()">예약검색</a>
+                        </li>
                         <li class="menu-item menu-item-has-children" id="boardMenu" >
                            <a href="#">게시판</a>
                            <ul class="sub-menu">
@@ -355,6 +358,16 @@
        
 	   
    }
+   
+	 function win() {
+
+	       var popupX = (window.screen.width / 2) - (800 / 2);
+	       var popupY= (window.screen.height / 2) - (800 / 2);
+
+	        window.open("<%= request.getContextPath() %>/views/reservation/reservationSimpleSearchView.jsp", '', 'height=800, width=800, left='+ popupX + ', top='+ popupY);
+
+	   }
+   
    
    </script>
 

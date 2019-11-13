@@ -138,10 +138,10 @@
 												<%} %>												
 												</td>
 												<td>
-													<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">상세보기</button>						
+													<button type="button"  class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exampleModal">상세보기</button>						
 												</td>	
 											</tr>
-						
+										<%} %>
                                         </tbody>
                                     </table>
                                 </div>

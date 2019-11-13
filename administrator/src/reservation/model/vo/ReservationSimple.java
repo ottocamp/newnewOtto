@@ -15,15 +15,13 @@ public class ReservationSimple implements Serializable{
 	private String reCar; // 차랑번호
 	private String reMsg; // 메세지
 	private String reCampName; // 캠핑장 명
-	private String reSite; // 사업자명
-	private Date reEntDate; // 입장일자
 	
 	
 	public ReservationSimple() {}
 
 
-	public ReservationSimple(String reName, String rePw, String rePhone, String reCar, String reMsg, String reCampName,
-			String reSite, Date reEntDate) {
+	public ReservationSimple(String reName, String rePw, String rePhone, String reCar, String reMsg,
+			String reCampName) {
 		super();
 		this.reName = reName;
 		this.rePw = rePw;
@@ -31,8 +29,6 @@ public class ReservationSimple implements Serializable{
 		this.reCar = reCar;
 		this.reMsg = reMsg;
 		this.reCampName = reCampName;
-		this.reSite = reSite;
-		this.reEntDate = reEntDate;
 	}
 
 
@@ -96,26 +92,6 @@ public class ReservationSimple implements Serializable{
 	}
 
 
-	public String getReSite() {
-		return reSite;
-	}
-
-
-	public void setReSite(String reSite) {
-		this.reSite = reSite;
-	}
-
-
-	public Date getReEntDate() {
-		return reEntDate;
-	}
-
-
-	public void setReEntDate(Date reEntDate) {
-		this.reEntDate = reEntDate;
-	}
-
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -124,9 +100,11 @@ public class ReservationSimple implements Serializable{
 	@Override
 	public String toString() {
 		return "ReservationSimple [reName=" + reName + ", rePw=" + rePw + ", rePhone=" + rePhone + ", reCar=" + reCar
-				+ ", reMsg=" + reMsg + ", reCampName=" + reCampName + ", reSite=" + reSite + ", reEntDate=" + reEntDate
-				+ "]";
+				+ ", reMsg=" + reMsg + ", reCampName=" + reCampName + "]";
 	}
+
+
+	
 	
 	
 

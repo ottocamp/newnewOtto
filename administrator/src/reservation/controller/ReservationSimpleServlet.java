@@ -47,7 +47,7 @@ public class ReservationSimpleServlet extends HttpServlet {
 	 	request.setAttribute("rsList", rsList);
 
 	
-		request.getRequestDispatcher("views/reservation/reservationSearchResult.jsp").forward(request, response);
+		request.getRequestDispatcher("views/reservation/reservationSimpleListView.jsp").forward(request, response);
 
 	}
 

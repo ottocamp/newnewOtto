@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import reservation.model.vo.Reservation;
+
+import reservation.model.vo.ReservationInsert;
 import reservation.model.vo.ReservationSimple;
+import static common.JDBCTemplate.*;
 
 public class ReservationSimpleDao {
 	private Properties prop = new Properties();
@@ -29,40 +32,65 @@ public class ReservationSimpleDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<ReservationSimple> rsList = new ArrayList<ReservationSimple>();
-		//쿼리문 미완성.
 		
 		String sql = prop.getProperty("SimpleSelectSearchList");
 		
-		/*try {
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, name);
+				pstmt.setString(2, pw);
+				pstmt.setString(3, phone);
+
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					rsList.add(new ReservationSimple(rset.getString(1),
+													 rset.getString(2),
+													 rset.getString(3),
+													 rset.getString(4),
+													 rset.getString(5),
+													 rset.getString(6)));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+		return rsList;
+	}
+
+	public int InsertReservation(Connection conn, ReservationInsert ri) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("InsertReservation");
+		
+		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, reArr[0]);
-			pstmt.setInt(2, reArr[1]);
-			pstmt.setInt(3, reArr[2]);
-			pstmt.setInt(4, reArr[3]);		
-			pstmt.setString(5, startDay);
-			pstmt.setString(6, endDay);
-			pstmt.setFloat(7, rMin);
-			pstmt.setFloat(8, rMax);
 			
-			rset = pstmt.executeQuery();
+			pstmt.setString(1, ri.getrName());
+			pstmt.setString(2, ri.getrPwd());
+			pstmt.setString(3, ri.getrPhone());
+			pstmt.setString(4, ri.getrCar());
+			pstmt.setString(5, ri.getrMessage());
+			pstmt.setString(6, ri.getcName());
 			
-			while(rset.next()) {
-				
-				Reservation re = new Reservation(rset.getInt("RE_NO"),
-						rset.getDate("PAYMENT_DATE"),
-						rset.getString("USER_NAME"),
-						rset.getString("PHONE"),
-						rset.getString("RE_DATE"),
-						rset.getInt("RE_COST"),
-						rset.getInt("RE_STATUS") + "",
-						rset.getString("CAMP_NAME"));
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 
-				sList.add(re);
-							
-			}*/
-		
-		return null;
+			System.out.println(result);
+		return result;
 	}
 
 }

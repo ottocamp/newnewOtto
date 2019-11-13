@@ -9,18 +9,29 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import camp.model.dao.CampRefoDao;
-import camp.model.vo.CampRefoEnter;
+import camp.model.vo.CampRefoOptionEnter;
+import camp.model.vo.CampRefoSiteEnter;
 
 public class CampRefoService {
 
-	public ArrayList<CampRefoEnter> selectCampList(int cNo) {
+	public ArrayList<CampRefoSiteEnter> selectSiteList(int cNo) {
 		Connection conn = getConnection();
 		
-		ArrayList<CampRefoEnter> eList = new CampRefoDao().selectCampReList(conn, cNo);
+		ArrayList<CampRefoSiteEnter> sList = new CampRefoDao().selectSiteList(conn, cNo);
 		
 		close(conn);
+		System.out.println("0-2 : " + sList);
+		return sList;
+	}
+
+	public ArrayList<CampRefoOptionEnter> selectOptionList(int cNo) {
+		Connection conn = getConnection();
 		
-		return eList;
+		ArrayList<CampRefoOptionEnter> oList = new CampRefoDao().selectOptionList(conn, cNo);
+		
+		close(conn);
+		System.out.println("1-2 : " + oList);
+		return oList;
 	}
 
 
